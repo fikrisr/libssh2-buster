@@ -1,12 +1,12 @@
 <?php
-$host = '0.tcp.ap.ngrok.io';
-$port = 11133;
-$username = 'sftpuser';
+$host = 'your host';
+$port = 22;
+$username = 'username';
 
 // Buat koneksi SSH
 $connection = ssh2_connect($host, $port);
 if (!$connection) {
-    die("❌ Connection failed\n");
+    die("Connection failed\n");
 }
 
 // Autentikasi pakai file key
@@ -17,7 +17,7 @@ if (!ssh2_auth_pubkey_file(
     '/app/id_rsa',
     ''
 )) {
-    die("❌ Authentication failed\n");
+    die("Authentication failed\n");
 }
 
-echo "✅ SUCCESS: Connected and Authenticated\n";
+echo "SUCCESS: Connected and Authenticated\n";
