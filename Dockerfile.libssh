@@ -16,11 +16,20 @@ RUN git clone https://github.com/libssh2/libssh2.git /opt/libssh2 && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     make -j$(nproc) && make install && ldconfig
 
+
+# Set env vars so pecl build ssh2 uses custom libssh2
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+ENV CFLAGS="-I/usr/local/include"
+ENV LDFLAGS="-L/usr/local/lib"
+
 # Build ssh2 extension via pecl
 RUN pecl install ssh2-1.3.1
 
 # Enable ssh2 extension for CLI PHP
 RUN echo "extension=ssh2.so" > /etc/php/7.3/cli/conf.d/20-ssh2.ini
+
+# Verify ssh2 linked to custom libssh2
+RUN ldd $(php -r "echo ini_get('extension_dir');")/ssh2.so | grep libssh2
 
 # Check loaded extensions
 CMD php -m | grep ssh2
