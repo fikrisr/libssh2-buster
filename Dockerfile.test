@@ -1,7 +1,7 @@
 FROM php:7.3-cli
 
 # cp library
-COPY libssh2.so* /usr/local/lib/
+COPY /lib/libssh2.so* /usr/local/lib/
 
 # add ssh2.so
 COPY ssh2.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ssh2.so
